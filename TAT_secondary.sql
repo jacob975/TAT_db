@@ -1,0 +1,29 @@
+insert into observatory (SITENAME,SITELAT,SITELONG,SITEALT) values ('TF','28.3003','-16.5122','00000');
+insert into observatory (SITENAME,SITELAT,SITELONG,SITEALT) values ('LI-JIANG','26:41:24','100:01:48','3330');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            

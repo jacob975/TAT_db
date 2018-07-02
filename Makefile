@@ -1,5 +1,2 @@
 all:
-	mysql < TAT.sql
-
-install:
-	pip install --user -r requirements.txt
+	update_to_TAT_db.py

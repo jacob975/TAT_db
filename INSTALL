@@ -1,11 +1,18 @@
-NSTALLATION OF TAT
+NSTALLATION OF TAT database
 
-first, use the following step:
- make
- make install
-then,find the data you want to insert DATABASES TAT
-use the following step:
- update_to_TAT_db.py "the PATH you want"
+first, use the following step to setup environment:
+ mysql < TAT_primary.sql
+ mysql < TAT_secondary.sql
+ pip install --user -r requirements.txt
+
+when you have already setup your environment, you can process the program by this:
+ make 
+
+
+
+
+
+
 
 NOTE1:
 you want to use update_to_TAT_db.py you need to use the following step,first:
@@ -13,7 +20,12 @@ you want to use update_to_TAT_db.py you need to use the following step,first:
  export PATH="the current path":PATH
  example:export PATH=/home/yunyan/TAT_db:$PATH
  source ~/.bashrc
-NOTE2:
+
+NOTE2:	
+ (and, you should check update_to_TAT_db.py be processed
+   if it can't be process you can use command" chmod +x update_to_TAT_db.py")
+
+NOTE3:
 the authority for DATABASE TAT:
  if you use mysql -u TAT -p1234, you have the all privileges for DATABASE TAT
  if you use mysql -u read -p1234, you just have the read privileges for DATABASE TAT
