@@ -1,25 +1,19 @@
 NSTALLATION OF TAT database
 
 first, use the following step to setup environment:
- mysql < TAT_primary.sql
- mysql < TAT_secondary.sql
+ mysql < TAT_crete_db.sql
  pip install --user -r requirements.txt
 
 when you have already setup your environment, you can process the program by this:
- make 
-
-
-
+ update_to_TAT_db.py 
 
 
 
 
 NOTE1:
-you want to use update_to_TAT_db.py you need to use the following step,first:
- vim ~/.bashrc 
- export PATH="the current path":PATH
- example:export PATH=/home/yunyan/TAT_db:$PATH
- source ~/.bashrc
+ the upate_to_TAT_db is to insert any data
+ the used_path is you want to insert the path of dir,so you can change the path by"vim used_path" if you want.
+
 
 NOTE2:	
  (and, you should check update_to_TAT_db.py be processed

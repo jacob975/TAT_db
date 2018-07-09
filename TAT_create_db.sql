@@ -1,7 +1,10 @@
+DROP database IF EXISTS `TAT`;
+CREATE database TAT;
+use TAT;
 DROP TABLE IF EXISTS `targets`;
 CREATE TABLE `targets`(
     `ID` int not null auto_increment primary key,
-    `NAME` varchar(20),         /*name of target*/
+    `NAME` varchar(20) UNIQUE,  /*name of target*/
     `RA` varchar(20),           /*Right Ascension of target*/
     `DEC` varchar(20),          /*Declination of target*/
     `MAGNITUDE` FLOAT,          /*Absolute Magnitude of target*/
@@ -56,6 +59,9 @@ CREATE TABLE `observatory`(
     `SITEALT` varchar(20)          /*Altitude of rhe observer*/
 
 );
+
+insert into observatory (SITENAME,SITELAT,SITELONG,SITEALT) values ('TF','28.30','-16.51','2300');
+insert into observatory (SITENAME,SITELAT,SITELONG,SITEALT) values ('LI-JIANG','26.69','100.03','3330');
 
 
 GRANT ALL PRIVILEGES ON TAT.* TO 'TAT'@'localhost' identified by '1234';

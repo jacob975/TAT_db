@@ -4,7 +4,6 @@ import MySQLdb
 from astropy.io import fits as pyfits
 import os
 import sys
-import used_path
 
 def insert_data_file(filename,path):
 
@@ -27,21 +26,18 @@ def insert_data_file(filename,path):
             datakey.append(row[0])
 
         sql="insert into data_file (FILENAME) values ({0});".format(name)
-        print("{0},ok".format(sql)) 
-        try:
-            cursor.execute(sql)
-            db.commit()
-            print("{0},ok".format(sql)) 
-        except:
-            db.rollback()
-        sql="UPDATE data_file SET `FILEPATH` = {0} WHERE `FILENAME` = {1} ;".format(name,path)
         try:
             cursor.execute(sql)
             db.commit()
             print("{0},ok".format(sql))
         except:
             db.rollback()
-
+        sql="UPDATE data_file SET `FILEPATH` = '{0}' WHERE `FILENAME` = {1} ;".format(path,name)
+        try:
+            cursor.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
 
         for header_element in key:
             for data_element in datakey:
@@ -50,15 +46,26 @@ def insert_data_file(filename,path):
                         sql="UPDATE data_file SET `{0}` = {1} WHERE `FILENAME` = {2} ;".format(data_element,header[header_element],name)
                     else:
                         sql="UPDATE data_file SET `{0}` = '{1}' WHERE `FILENAME` = {2} ;".format(data_element,header[header_element],name)
-
-            if 'OBSERVAT'==header_element:
-                sql="UPDATE data_file set `SITENAME`  = '{0}' WHERE `FILENAME`= {1};".format(header['OBSERVAT'],name)  
+            if 'OBSERVAT'== header_element:
+                sql="UPDATE data_file set `SITENAME`  = '{0}' WHERE `FILENAME`= {1};".format(header['OBSERVAT'],name)
+            try:
+                cursor.execute(sql)
+                db.commit()
+            except:
+                db.rollback()
+        for data_element in datakey: 
+            if ('subbed'== data_element):
                 try:
-                    cursor.execute(sql_ob)
-                    db.commit()
+                    header['subbed'] is True
                 except:
-                    db.rollback()
-
+                    sql="UPDATE data_file set `subbed`  = False WHERE `FILENAME`= {0};".format(name)
+                    print(sql)
+            if ('divfitted'== data_element):
+                try:
+                    header['divfitted'] is True
+                except:
+                    sql="UPDATE data_file set `divfitted`  = False WHERE `FILENAME`= {0};".format(name)
+                    print(sql)
             try:
                 cursor.execute(sql)
                 db.commit()
@@ -71,7 +78,15 @@ def insert_data_file(filename,path):
 
     return
 if __name__ =="__main__":
-    for root, dirs, files in os.walk("{0}".format(used_path.used_path)):
+    fo=open("back_up_path","r")
+    line=fo.readlines()
+    lineread=line[0][:-1].split("=")
+    if lineread[0]=="path":
+        backuppath=lineread[1]
+    else:
+        print("ERROR: not a path")
+    fo.close()
+    for root, dirs, files in os.walk(backuppath):
         for name in dirs:
             path=os.path.join(root, name)
             print(path)
