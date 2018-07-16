@@ -1,0 +1,2 @@
+path=/home2/TAT/data
+

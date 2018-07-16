@@ -1,0 +1,182 @@
+\documentclass[12pt]{article}    %text size is 12pt and article form 
+\usepackage{enumitem}            %To use item and enumerate
+\usepackage{graphicx}            %To resize the table 
+\usepackage{geometry}            % To set the paper size
+\geometry{a4paper,margin=1in}    %set paper A4 size and margin is 1 
+\linespread{1.2}         %line space is 1.2
+\title{TAT data Manual}  % give the information for title
+
+%If I use \verb, it means the origin form in terminal 
+%If I use {\it}, it means the name of something ex: file or table
+
+\begin{document}
+
+	\maketitle     % create title
+	\newpage		 
+	
+	\tableofcontents	  % create the contents
+	\newpage    
+	
+	
+	% The first section. Describe the database TAT	
+	\section{Database {\it TAT}}
+	\begin{itemize}
+		\item We create a database {\it TAT} and it contains three table:\\
+		targets,data\_file,observatory
+		\item Database {\it TAT} records all data about Taiwan Automatic Telescope. 
+		
+	% describe the Table targets
+		\subsection{Table {\it targets}}
+		\item Table {\it targets} describles the data of targets that we want to observe.
+		\item Table {\it targets} contains the following keys:\\
+		\footnotesize
+		\indent ID, NAME, RA, DEC, MAGNITUDE, PERIOD, TYPE, BFE0, N0, BFE1, N1, BFE2, N2, BFE3, N3, BFE4, N4, BFE5, N5, BFE6, N6
+		\normalsize
+		\item The meaning of keys:\\[0.2cm]
+		\textbf {-- ID} is the number for every data and it is auto\_increment.\\
+		\textbf {-- NAME} is the name of target and it is unique.\\
+		\textbf {-- RA} is the Right Ascension of the taget. \\
+		\textbf {-- DEC} is the Declination of target.\\
+		\textbf {-- MAGNITUDE} is the Absolute Magnitude of target.\\ 
+		\textbf {-- PERIOD} is the Period of Magitude changing. \\
+		\textbf {-- TYPE} is the Type of target.Example: star, galaxy...\\
+		\textbf {-- BFE0,1,2,3,...} is the best exposure time for filter 0,1,2,3,...\\ 
+		\textbf {-- N0,1,2,3,...} is the filter0,1,2,3,...
+	\end{itemize}
+	Then, the following table is the example of table targets:
+	
+	% create the table	
+	\begin{table}[!htbp]
+		\centering
+		\caption{Example for table {\it targets}}
+		\begin{tabular}{|*{7}{c|}}
+			\hline
+			ID & NAME & RA & DEC & MAGNITUDE & PERIOD & TYPE  \\ \hline
+			1 & IC5146 & 21:53:24 & 47:16:00 & 0 & 0 & star \\ \hline
+		\end{tabular}
+	\end{table}
+
+	% describe the Table file_data
+	\subsection{Table \it {file\_data}}
+	\begin{itemize}
+		\item Table {\it data\_file} describles the data of picture we have pictured.
+		\item Table {\it data\_file} contains the following key:\\
+		\footnotesize
+		\indent ID, FILENAME, FILEPATH, FILTER, RA, DEC, SITENAME, CCDTEMP, EXPTIME, DATE-OBS, TIME-OBS, MJD-OBS, AIRMASS, JD, subbed, divfitted
+		\normalsize
+		\item The meaning of keys:\\[0.2cm]
+		\textbf {-- ID} is the number for every data and it is auto\_increment.\\
+		\textbf {-- FILENAME} is the filename of data file and it is unique.\\
+		\textbf {-- FILEPATH} is the path of data file and it is unique.\\
+		\textbf {-- FILTER} is the filter.\\
+		\textbf {-- RA} is the Right Ascension of the center of target.\\
+		\textbf {-- DEC} is the Declination of the center of image .\\
+		\textbf {-- SITENAME} is the location of observer.\\
+		\textbf {-- CCDTEMP} is the CCD temperature.\\
+		\textbf {-- EXPTIME} is the exposure time.\\
+		\textbf {-- DATE-OBS} is the data and its type is YYYY/MM/DD*.\\
+		\textbf {-- TIME-OBS} is the time of total imaging.\\
+		\textbf {-- MJD-OBS} the Modified Julian Date.\\
+		\textbf {-- AIRMASS} is the path from a celestial source to pass through the atmosphere.\\
+		\textbf {-- JD} is the Julian Date.\\
+		\textbf {-- subbed} if the file has been subbed, it results True. Otherwise, it results False.\\
+		\textbf {-- divfitted} if the file has been divfitted, it results True. Otherwise, it results False.\\
+
+
+	\end{itemize}
+	Then, the following table is the example of table file\_data:
+	
+	%create the table
+	\begin{table}[!htbp]
+		\centering
+		\caption{Example for table {\it data\_file}}
+		\resizebox{\textwidth}{!}
+		{
+		\begin{tabular}{|*{16}{c|}}
+			\hline
+			ID & FILENAME & FILEPATH & FILTER & RA & DEC & SITENAME & CCDTEMP & EXPTIME & DATE-OBS & TIME-OBS & MJD-OBS & AIRMASS & JD & subbed & divfitted  \\ \hline
+			1 & AStarTF20180705\_215223.fit & /home2/TAT/data/raw/TF/image/20180705 & A & 19:20:30 & 11:02:01 & TF & -16.2883 & 600 & 2018-07-05 &	21:52:23.26 & 58304.918345 & NULL & 2458305.41834 & 0 & 0 \\ \hline 
+			2 & AStarTF20180705\_221349.fit & /home2/TAT/data/raw/TF/image/20180705 & A & 19:20:30 & 11:02:01 & TF & -30.0856 & 600 & 2018-07-05 &	22:13:49.26 & 58304.933229 & NULL & 2458305.43323 & 0 & 0 \\ \hline
+			3 & AStarTF20180705\_223518.fit & /home2/TAT/data/raw/TF/image/20180705 & A & 19:20:30 & 11:02:01 & TF & -30.0385 & 600 & 2018-07-05 & 	22:35:18.26 & 58304.94816 & NULL & 2458305.44816 & 0 & 0 \\ \hline
+			4 & AStarTF20180705\_225646.fit & /home2/TAT/data/raw/TF/image/20180705 & A & 19:20:30 & 11:02:01 & TF & -30.0605 & 600 & 2018-07-05 &	22:56:46.26 & 58304.963056 & NULL & 2458305.46306 & 0 & 0 \\ \hline 
+		\end{tabular}
+		}
+	\end{table}
+
+	%describle the table observatory
+	\subsection{Table {\it observatory}}
+	\begin{itemize}
+		\item Table {\it observatory} contains the following key:
+		\footnotesize
+		\indent ID, SITENAME, SITELAT, SITELONG, SITEALT
+		\normalsize
+		\item The meaning of keys:\\[0.2cm]
+		\textbf {-- ID} is the number for every data and it is auto\_increment.\\
+		\textbf {-- SITENAME} is the location of observer and it is unique.\\
+		\textbf {-- SITELAT} is the Latitude of the observer. \\
+		\textbf {-- SITELONG} is the Longitude of the observer.\\
+		\textbf {-- SITEALT} is the Altitude of the observer.
+	\end{itemize}
+	Then, the following table is the example of table observatory:
+	
+	%create the table	
+	\begin{table}[!htbp]
+		\centering
+		\caption{Table {\it observatory}}
+		\begin{tabular}{|*{5}{c|}}
+			\hline
+			ID & SITENAME & SITELAT & SITELONG & SITEALT \\ \hline
+			1 & TF & 28.30 & -16.51 & 2300 \\ \hline    
+			2 & LI-JIANG & 26.69 & 100.03 & 3330 \\ \hline 
+		\end{tabular}
+	\end{table}
+
+	\newpage
+	
+	%The second section. 
+	\section{Program {\it TAT\_database}}
+	\begin{itemize}
+		\item This program {\it TAT\_database} is to insert all data in the \verb|/home2/TAT/data| to database {\it TAT}
+	\end{itemize}
+	
+	
+	\subsection{File}
+	
+	\begin{itemize}
+		\item This program is in path \verb|/home2/TAT/program/TAT_database|\\
+		It contains the following file:\\
+		\indent INSTALL, README.md, back\_up\_path, update\_to\_TAT\_db.py, Makefile, TAT\_create\_db.sql, requirement.txt,log.txt
+		\item Brief to file:\\
+		\textbf {-- INSTALL} is that the simple manual describles how to set	environment and excute.\\
+		\textbf {-- README.md} is to illustrate what this program can do.\\
+		\textbf {-- back\_up\_path} contains the path you want to deal with all data in.\\
+		\textbf {-- update\_to\_TAT\_db.py} is to insert the all data in the path written into file {\it back\_up\_path} to database {\it TAT}.\\
+		\textbf {-- Makefile} is the convenient file to provid to use the command \verb|make| \\
+		\textbf {-- TAT\_create\_db.sql} is the file to create the database {\it TAT}.\\
+		\textbf {-- requirement.txt} is the file to provid module needed to install.\\
+		\textbf {-- log.txt} is the file to record the path dealed with.
+	\end{itemize}
+	\subsection{Set Environment}
+	\begin{enumerate}
+		\item To struct the database {\it TAT}, the command:   \verb|mysql < TAT_crete_db.sql|	
+		\item To get the module for the file {\it update\_to\_TAT\_db.py}, the command:\\
+		\verb|	pip install --user -r requirements.txt|
+		\item Let the file {\it update\_to\_TAT\_db.py} be used in anywhere, the command:\\
+		\verb|	make install|
+	\end{enumerate}
+	\subsection{Execute}
+	\begin{itemize}
+		\item To insert the data in the path writtened in the file {\it back\_up\_path} to database {\it TAT}, the command:\\
+		\verb|	update_to_TAT_db.py|
+	\end{itemize}
+	\subsection{Authority}
+	\begin{itemize}
+		\item {\it TAT@localhost} has all privileges to use database {\it TAT} ,and its password is 1234
+		\item {\it read@localhost} just has the privilege of select to use database {\it TAT} ,and its password is 1234
+	\end{itemize}
+	\subsection{Clean}
+	\begin{itemize}
+		\item To remove the file {\it update\_to\_TAT\_db.py} and {\it log.txt}, the command:\\
+		\verb|	make clean|
+	\end{itemize}
+\end{document}
