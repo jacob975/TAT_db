@@ -7,10 +7,37 @@ import sys                                  #Used in some error, we can exodus
 
 #set useful variable fpr path. We save the path in the file back_up_path.txt.
 global BACKUP_PATH_FILENAME                                                       
-BACKUP_PATH_FILENAME = "/home2/TAT/programs/TAT_database/back_up_path.txt" 
+BACKUP_PATH_FILENAME = "/home2/TAT/programs/TAT_database_update/back_up_path.txt" 
 
 global LOG
-LOG="/home2/TAT/programs/TAT_database/log.txt"
+LOG="/home2/TAT/programs/TAT_database_update/log.txt"
+
+def RA_to_deg(RA):
+    RA_deg=0
+    try:
+        RA=RA.split(':')
+
+        for i in range(len(RA)):
+            RA[i]=float(RA[i])
+
+        RA_deg=RA[0]*15.0+RA[1]*15.0/60.0+RA[2]*15.0/3600.0
+    except:
+        pass
+    return RA_deg
+
+def DEC_to_deg(DEC):
+    DEC_deg=0
+    try:
+        DEC=DEC.split(':')
+
+        for i in range(len(DEC)):
+            DEC[i]=float(DEC[i])
+
+        DEC_deg=DEC[0]+DEC[1]/60.0+DEC[2]/3600.0
+    except:
+        pass
+    return DEC_deg
+
 
 # The function to deal with the data to insert Table data_file
 def insert_data_file(filename,path):
@@ -53,24 +80,40 @@ def insert_data_file(filename,path):
         except:
             db.rollback()
 
-        # Check the "subbed" and "divfitted" in the header is True. Otherwise set them be False.  
-        for data_element in datakey: 
-            if ('subbed'== data_element):
-                try:
-                    header['subbed'] is True
-                except:
-                    sql="UPDATE data_file set `subbed`  = False WHERE `FILENAME`= {0};".format(name)
-            if ('divfitted'== data_element):
-                try:
-                    header['divfitted'] is True
-                except:
-                    sql="UPDATE data_file set `divfitted`  = False WHERE `FILENAME`= {0};".format(name)
-            try:
-                cursor.execute(sql)
-                db.commit()
-            except:
-                db.rollback()
+        # Set false to "subbed" and "divfitted"  
+        sql="UPDATE data_file set `SUBBED`  = False WHERE `FILENAME`= {0};".format(name)
+        try:
+            cursor.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
 
+        sql="UPDATE data_file set `FLATDIVED`  = False WHERE `FILENAME`= {0};".format(name)
+        try:
+            cursor.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
+        
+        for header_element in key:
+            if header_element=="DEC":
+                DECdeg = DEC_to_deg(header[header_element])
+            if header_element=="RA":
+                RAdeg = RA_to_deg(header[header_element])
+
+        sql="UPDATE data_file set `DEC(deg)`  = '{0}' WHERE `FILENAME`= {1};".format(DECdeg,name)
+        try:
+            cursor.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
+        sql="UPDATE data_file set `RA(deg)`  = '{0}' WHERE `FILENAME`= {1};".format(RAdeg,name)
+        try:
+            cursor.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
+        
         #Match all key in header and data_file.
         for header_element in key:
             for data_element in datakey:
@@ -100,19 +143,19 @@ def insert_data_file(filename,path):
 # Main process 
 if __name__ =="__main__":
     #read the path file
-    fo=open(BACKUP_PATH_FILENAME,"r")
-    line=fo.readlines()
-    lineread=line[0][:-1].split("=")         # I set the format in back_up_path path=.... ,thus we check where line is path
-    if lineread[0]=="path":
-        backuppath=lineread[1]
-    else:
-        print("ERROR: not a path")          # If reading the path were not a path.
-        sys.exit()                          # Exodus this program
-    fo.close()
+    with open(BACKUP_PATH_FILENAME,"r") as fo:
+        line=fo.readlines()
+        lineread=line[0][:-1].split("=")         # I set the format in back_up_path path=.... ,thus we check where line is path
+        if lineread[0]=="path":
+            backuppath=lineread[1]
+        else:
+            print("ERROR: not a path")          # If reading the path were not a path.
+            sys.exit()                          # Exodus this program
+
 
     #create the file log.txt if it doesn't exist.
-    fo=open(LOG,"a")
-    fo.close()
+    with open(LOG,"a") as fo:
+        pass
 
     #read all file and directory under the path "/home2/TAT/data" (root --> the current directory, directory -->sll directory in the root  , files --> all the file in the root)
     # When read all file in the current directory, root will become the one of dirs
@@ -121,11 +164,11 @@ if __name__ =="__main__":
             path=os.path.join(root, name)    # the current directory plus the one of sub directory.
 
             #read the log and elimate "\n"
-            fo=open(LOG,"r")
-            line=fo.readlines()
-            for i in range(len(line)):
-                line[i]=line[i][:-1]
-            fo.close()
+            with open(LOG,"r") as fo:
+                line=fo.readlines()
+                for i in range(len(line)):
+                    line[i]=line[i][:-1]
+    
 
             # Check whether it has been done. If it has been done ,it will output has already been deal. Otherwise, it will insert it.
             if path in line:
@@ -134,16 +177,15 @@ if __name__ =="__main__":
                 os.chdir(path)
                 # Let all filename contain the fit be a file, and let the filename line by line.
                 os.system("ls *.fit* > list.txt")
-                f=open('list.txt','r')
-                # read line one by one in the list.txt
-                for line in f.readlines():
-                    line=line.strip()
-                    insert_data_file(line,path)   # Use the function insert_data_file one by one.
-                f.close()
+                with open('list.txt','r') as fo:
+                    # read line one by one in the list.txt
+                    for line in fo.readlines():
+                        line=line.strip()
+                        insert_data_file(line,path)   # Use the function insert_data_file one by one.
+
                 os.remove("list.txt")  # After inserting the database TAT, delete this file.     
                 print(path,"ok")
 
                 # Write the path dealed to log.txt
-                fo=open(LOG,"a")
-                fo.write(path+'\n')
-                fo.close()
+                with open(LOG,"a") as fo:
+                    fo.write(path+'\n')

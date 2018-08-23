@@ -8,25 +8,28 @@ DROP TABLE IF EXISTS `targets`;           /* if the table exists, it will be dro
 CREATE TABLE `targets`(
     `ID` int not null auto_increment primary key,
     `NAME` varchar(20) UNIQUE,  /*name of target*/
+    `RA(deg)` varchar(20),           /*Right Ascension of target*/
+    `DEC(deg)` varchar(20),          /*Declination of target*/
     `RA` varchar(20),           /*Right Ascension of target*/
     `DEC` varchar(20),          /*Declination of target*/
     `MAGNITUDE` FLOAT,          /*Absolute Magnitude of target*/
     `PERIOD` FLOAT,             /*Period of Magitude changing*/
     `TYPE` varchar(20),         /*Type of target: star, galaxy...*/
+    `INDEXYY` varchar(16),
     `BFE0` FLOAT,               /*best exposure time for filter 0*/
-    `N0` varchar(2),             /*filter0*/	
+    `F0` varchar(2),             /*filter0*/	
     `BFE1` FLOAT,               /*best exposure time for filter 1*/
-    `N1` varchar(2),             /*filter1*/ 
+    `F1` varchar(2),             /*filter1*/ 
     `BFE2` FLOAT,               /*best exposure time for filter 2*/
-    `N2` varchar(2),             /*filter2*/
+    `F2` varchar(2),             /*filter2*/
     `BFE3` FLOAT,               /*best exposure time for filter 3*/
-    `N3` varchar(2),             /*filter3*/
+    `F3` varchar(2),             /*filter3*/
     `BFE4` FLOAT,               /*best exposure time for filter 4*/
-    `N4` varchar(2),             /*filter4*/
+    `F4` varchar(2),             /*filter4*/
     `BFE5` FLOAT,               /*best exposure time for filter 5*/
-    `N5` varchar(2),             /*filter5*/
+    `F5` varchar(2),             /*filter5*/
     `BFE6` FLOAT,               /*best exposure time for filter 6*/
-    `N6` varchar(2)             /*filter6*/
+    `F6` varchar(2)             /*filter6*/
 );
 
 
@@ -39,6 +42,8 @@ CREATE TABLE `data_file`(
     `FILENAME` varchar(80) UNIQUE,
     `FILEPATH` varchar(80),
     `FILTER` varchar(20),       /*filter*/
+    `RA(deg)` varchar(20),           /*Right Ascension of target*/
+    `DEC(deg)` varchar(20),          /*Declination of target*/
     `RA` varchar(20),           /*Right Ascension of target*/
     `DEC` varchar(20),          /*Declination of target*/
     `SITENAME` varchar(20),     /*location of observer*/
@@ -49,8 +54,8 @@ CREATE TABLE `data_file`(
     `MJD-OBS` DOUBLE,           /*Modified Julian Date*/
     `AIRMASS` DOUBLE,           
     `JD` DOUBLE,                /*Julian Date*/
-    `subbed` boolean,           /*if the file has been subbed, it results True. Otherwise, it results False*/
-    `divfitted` boolean         /*if the file has been divfitted, it results True. Otherwise, it results False*/
+    `SUBBED` boolean,           /*if the file has been subbed, it results True. Otherwise, it results False*/
+    `FLATDIVED` boolean         /*if the file has been divfitted, it results True. Otherwise, it results False*/
 
 );
 

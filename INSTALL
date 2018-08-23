@@ -1,7 +1,7 @@
-NSTALLATION OF TAT database
+INSTALLATION OF TAT database
 
-first, use the following step to setup environment:
- mysql < TAT_crete_db.sql
+First, use the following step to setup environment:
+ mysql < TAT_create_db.sql
  pip install --user -r requirements.txt
 
 when you have already setup your environment, you can process the program by this:
