@@ -1,28 +1,29 @@
 INSTALLATION OF TAT database
 
-First, use the following step to setup environment:
- mysql < TAT_create_db.sql
- pip install --user -r requirements.txt
+First, use the following steps to setup environment and install:
+    mysql < TAT_create_db.sql
+    pip install --user -r requirements.txt
 
-when you have already setup your environment, you can process the program by this:
- update_to_TAT_db.py 
+As you setup your environment, you can start to process your data by this:
+    update_to_TAT_db.py 
 
 
 
 
 NOTE1:
- the upate_to_TAT_db is to insert any data
- the used_path is you want to insert the path of dir,so you can change the path by"vim used_path" if you want.
+    The update_to_TAT_db is used to upload data to mysql database.
+    # 20181028 The following sentence I not sure
+    The used_path is you want to insert the path of dir,so you can change the path by"vim used_path" if you want.
 
 
 NOTE2:	
- (and, you should check update_to_TAT_db.py be processed
-   if it can't be process you can use command" chmod +x update_to_TAT_db.py")
+    You should check if update_to_TAT_db.py is runable.
+    If not, you can use command" chmod +x update_to_TAT_db.py" to enable.
 
 NOTE3:
-the authority for DATABASE TAT:
- if you use mysql -u TAT -p1234, you have the all privileges for DATABASE TAT
- if you use mysql -u read -p1234, you just have the read privileges for DATABASE TAT
+    The authority for DATABASE TAT:
+    If you use 'mysql -u TAT -p1234', you have the all privileges for DATABASE TAT
+    If you use 'mysql -u read -p1234', you only have the read privilege for DATABASE TAT
 
 
 

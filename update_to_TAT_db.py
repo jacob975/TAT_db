@@ -157,8 +157,9 @@ if __name__ =="__main__":
     with open(LOG,"a") as fo:
         pass
 
-    #read all file and directory under the path "/home2/TAT/data" (root --> the current directory, directory -->sll directory in the root  , files --> all the file in the root)
-    # When read all file in the current directory, root will become the one of dirs
+    # read all file and directory under the path "/home2/TAT/data" 
+    # (root --> the current directory, directory --> all directory in the root and files --> all the file in the root)
+    # If all files in the current directory are read, root will become the one of dirs
     for root, dirs, files in os.walk(backuppath):
         for name in dirs:
             path=os.path.join(root, name)    # the current directory plus the one of sub directory.
