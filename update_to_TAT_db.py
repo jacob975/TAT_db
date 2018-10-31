@@ -3,14 +3,7 @@ import MySQLdb                              #Let python use mysql
 from astropy.io import fits as pyfits       #To get the header key, use pyfits
 import os                                   #To use command in terminal
 import sys                                  #Used in some error, we can exodus
-
-
-#set useful variable fpr path. We save the path in the file back_up_path.txt.
-global BACKUP_PATH_FILENAME                                                       
-BACKUP_PATH_FILENAME = "/home2/TAT/programs/TAT_database_update/back_up_path.txt" 
-
-global LOG
-LOG="/home2/TAT/programs/TAT_database_update/log.txt"
+from back_up_path import LOG, backuppath
 
 def RA_to_deg(RA):
     RA_deg=0
@@ -39,14 +32,14 @@ def DEC_to_deg(DEC):
     return DEC_deg
 
 
-# The function to deal with the data to insert Table data_file
+# The function to read the infos of images and save in Table `data_file`.
 def insert_data_file(filename,path):
 
-    name="{0}".format(filename)           # Just set name is like string to the pyfits.header use.
+    name="{0}".format(filename)           # Set name as the filename. 
     header=pyfits.getheader(filename)     # Get the header from the fit file. 
-    key=header.keys()                     # Set the variable key is the key in header   
-    datakey=[]                            # define the datakey is a list
-    name="'{0}'".format(filename)         # Just set name be easily used in Mysql
+    key=header.keys()                     # Read the variable key from header.   
+    datakey=[]                            # Define the datakey as a list. 
+    name="'{0}'".format(filename)         # Set name in mysql style. 
 
 
     # Connect the Mysql and use the user "TAT" .The form is (your localhost , username, password, name of database)
@@ -133,7 +126,7 @@ def insert_data_file(filename,path):
                 db.rollback()
     # if command "desc data_file" were wrong, it would output error
     except:
-        print "Error: unable to fecth data"
+        print "Error: unable to fetch data"
  
     # Unconnect the Nysql
     db.close()
@@ -142,17 +135,6 @@ def insert_data_file(filename,path):
 
 # Main process 
 if __name__ =="__main__":
-    #read the path file
-    with open(BACKUP_PATH_FILENAME,"r") as fo:
-        line=fo.readlines()
-        lineread=line[0][:-1].split("=")         # I set the format in back_up_path path=.... ,thus we check where line is path
-        if lineread[0]=="path":
-            backuppath=lineread[1]
-        else:
-            print("ERROR: not a path")          # If reading the path were not a path.
-            sys.exit()                          # Exodus this program
-
-
     #create the file log.txt if it doesn't exist.
     with open(LOG,"a") as fo:
         pass

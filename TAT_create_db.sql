@@ -1,4 +1,4 @@
-DROP database IF EXISTS `TAT`;              /* if the database exists, it will be drop*/
+/*DROP database IF EXISTS `TAT`;              if the database exists, it will be drop*/
 CREATE database TAT;
 use TAT;
 

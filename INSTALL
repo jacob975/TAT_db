@@ -13,8 +13,7 @@ As you setup your environment, you can start to process your data by this:
 NOTE1:
     The update_to_TAT_db is used to upload data to mysql database.
     # 20181028 The following sentence I not sure
-    The used_path is you want to insert the path of dir,so you can change the path by"vim used_path" if you want.
-
+    The used_path is you want to insert the path of dir, so you can change the path by "vim used_path" if you want.
 
 NOTE2:	
     You should check if update_to_TAT_db.py is runable.
@@ -22,7 +21,7 @@ NOTE2:
 
 NOTE3:
     The authority for DATABASE TAT:
-    If you use 'mysql -u TAT -p1234', you have the all privileges for DATABASE TAT
+    If you use 'mysql -u TAT -p1234', you have all privileges for DATABASE TAT
     If you use 'mysql -u read -p1234', you only have the read privilege for DATABASE TAT
 
 
